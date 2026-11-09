@@ -1,0 +1,14 @@
+import requests
+
+headers = {
+    'Authorization': 'Token SpiFECk63Y3cwxUgA2f9eRvhz4lqTXVsKAF2YcN1JII'
+}
+
+# Test releases list
+response = requests.get(
+    'http://127.0.0.1:8000/api/v1/projects/773599bf-25b7-4e19-abcb-6cd2593ca1e6/releases/',
+    headers=headers
+)
+
+print(f"Releases List Status: {response.status_code}")
+print(f"Releases List: {response.text}")

@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:16-alpine
+    container_name: releaseguard-db
+    environment:
+      POSTGRES_DB: releaseguard
+      POSTGRES_USER: releaseguard
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-releaseguard}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U releaseguard -d releaseguard"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis (for future Celery use)
+  redis:
+    image: redis:7-alpine
+    container_name: releaseguard-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ReleaseGuard Application
+  app:
+    build:
+      context: .
+      target: development
+    container_name: releaseguard-app
+    environment:
+      DEBUG: "True"
+      SECRET_KEY: ${SECRET_KEY:-django-insecure-dev-key-change-in-production}
+      DATABASE_URL: postgres://releaseguard:${POSTGRES_PASSWORD:-releaseguard}@db:5432/releaseguard
+      EMAIL_BACKEND: django.core.mail.backends.console.EmailBackend
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: >
+      sh -c "python manage.py migrate --noinput &&
+             python manage.py runserver 0.0.0.0:8000"
+
+  # Background Worker
+  worker:
+    build:
+      context: .
+      target: development
+    container_name: releaseguard-worker
+    environment:
+      DEBUG: "True"
+      SECRET_KEY: ${SECRET_KEY:-django-insecure-dev-key-change-in-production}
+      DATABASE_URL: postgres://releaseguard:${POSTGRES_PASSWORD:-releaseguard}@db:5432/releaseguard
+    volumes:
+      - .:/app
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: python manage.py runworker --interval 5
+
+volumes:
+  postgres_data:
+  redis_data:
