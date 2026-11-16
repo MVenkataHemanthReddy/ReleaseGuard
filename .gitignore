@@ -57,6 +57,8 @@ build/
 # Node / Frontend
 node_modules/
 frontend/node_modules/
+frontend/dist/
+*.tsbuildinfo
 .next/
 out/
 .npm/

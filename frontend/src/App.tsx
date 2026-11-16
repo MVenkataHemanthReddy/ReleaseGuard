@@ -9,6 +9,9 @@ import { ApiChecks } from './pages/ApiChecks'
 import { Issues } from './pages/Issues'
 import { Settings } from './pages/Settings'
 import { Organizations } from './pages/Organizations'
+import { LandingPage } from './pages/LandingPage'
+import { AppleLandingPage } from './pages/AppleLandingPage'
+import { NeoAstraLanding } from './pages/NeoAstraLanding'
 import { LoadingScreen } from './components/ui/LoadingScreen'
 
 interface ErrorBoundaryProps {
@@ -67,7 +70,11 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/apple" element={<AppleLandingPage />} />
+      <Route path="/neo" element={<NeoAstraLanding />} />
+      <Route path="/home" element={<LandingPage />} />
+      <Route path="/landing" element={<LandingPage />} />
       <Route element={<Layout />}>
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="releases" element={<Releases />} />
@@ -77,7 +84,7 @@ function AppRoutes() {
         <Route path="organizations" element={<Organizations />} />
         <Route path="settings" element={<Settings />} />
       </Route>
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
 }

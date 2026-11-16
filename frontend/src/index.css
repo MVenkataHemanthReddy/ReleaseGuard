@@ -289,4 +289,91 @@
   .safe-right {
     padding-right: env(safe-area-inset-right);
   }
+
+  /* NeoAstra-inspired Futuristic Cybernetic Aesthetics */
+  .animate-spin-slow {
+    animation: rotateCircle 32s linear infinite;
+  }
+  .animate-spin-reverse-slow {
+    animation: rotateCircleReverse 24s linear infinite;
+  }
+  .animate-spin-medium {
+    animation: rotateCircle 14s linear infinite;
+  }
+  .animate-pulse-glow {
+    animation: pulseGlow 4s ease-in-out infinite;
+  }
+  .animate-float-slow {
+    animation: floatSlow 5s ease-in-out infinite;
+  }
+
+  .cyber-grid-bg {
+    background-size: 40px 40px;
+    background-image: 
+      linear-gradient(to right, rgba(5, 238, 250, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(5, 238, 250, 0.04) 1px, transparent 1px);
+  }
+
+  .cyber-radial-mask {
+    mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+  }
+
+  .glow-cyan {
+    box-shadow: 0 0 40px -5px rgba(5, 238, 250, 0.35);
+  }
+
+  .glow-border {
+    border-color: rgba(5, 238, 250, 0.25);
+    box-shadow: inset 0 0 20px rgba(5, 238, 250, 0.05), 0 0 25px rgba(5, 238, 250, 0.12);
+  }
+
+  .glass-card {
+    background: rgba(13, 20, 36, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(5, 238, 250, 0.15);
+  }
+
+  .glass-card-hover:hover {
+    border-color: rgba(5, 238, 250, 0.45);
+    box-shadow: 0 10px 40px -10px rgba(5, 238, 250, 0.25);
+  }
+}
+
+@keyframes rotateCircle {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotateCircleReverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
 }

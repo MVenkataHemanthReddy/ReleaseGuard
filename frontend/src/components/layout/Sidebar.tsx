@@ -76,7 +76,9 @@ export function Sidebar() {
       )}
     >
       <div className="flex h-16 items-center justify-between px-4 border-b border-surface-200 dark:border-surface-800">
-        <LogoIcon className="w-8 h-8 text-brand-500 flex-shrink-0" />
+        <NavLink to="/" title="Back to Website" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <LogoIcon className="w-8 h-8 text-brand-500 flex-shrink-0" />
+        </NavLink>
         {!isCollapsed && (
           <span className="text-heading-sm font-medium text-surface-900 dark:text-surface-100 truncate">
             {currentProject.name}
